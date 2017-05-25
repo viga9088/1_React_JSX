@@ -3,8 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <title>$Title$</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
 </head>
 <body>
-$END$
+
+<div id="container"></div>
+
+<script type="text/jsx">
+    var TestClickComponent = React.createClass({
+        handleClick: function (event) {
+            var tipE = React.findDOMNode( this.refs.tip);
+
+            if (tipE.style.display === 'none') {
+                tipE.style.display = 'inline';
+            } else {
+                tipE.style.display = 'none';
+            }
+
+          event.stopPropagation();
+          event.preventDefault();
+        },
+        render: function(){
+            return (
+                <div>
+                    <button onClick={this.handleClick}>Show | Hide</button><span ref="tip">Test</span>
+                </div>
+            )
+        }
+    });
+
+
+    var TestInputComponent = React.createClass({
+        getInitialState: function () {
+            return {
+                inputContent: ""
+            }
+        },
+
+        //阻止事件的冒泡和默认行为
+        changeHandler: function (e) {
+            this.setState({
+                    inputContent: e.target.value
+            })
+        },
+
+        render: function () {
+            return (
+                    <div>
+                        <input type="text" onChange={this.changeHandler} /><span>{this.state.inputContent}</span>
+                    </div>
+            )
+        }
+    });
+
+    React.render(
+        <div>
+            <TestClickComponent/> <TestInputComponent />
+        </div>,
+        document.getElementById('container'));
+</script>
 </body>
 </html>
